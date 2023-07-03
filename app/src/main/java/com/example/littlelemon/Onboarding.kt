@@ -1,5 +1,8 @@
 package com.example.littlelemon
 
+import android.content.Context
+import android.os.Build
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,6 +19,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -24,13 +28,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @Composable
-fun Onboarding(){
+fun Onboarding(navController: NavController){
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
             .background(color = Color(0xFFEDEFEE)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -82,7 +87,7 @@ fun Onboarding(){
         val firstNameState = remember { mutableStateOf("") }
         val lastNameState = remember { mutableStateOf("") }
         val emailState = remember { mutableStateOf("") }
-        
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -162,7 +167,21 @@ fun Onboarding(){
         }
 
         Button(
-            onClick = { /* Handle register button click */ },
+            onClick = {
+
+                val allFieldsFilled = firstNameState.value.isNotBlank() &&
+                        lastNameState.value.isNotBlank() &&
+                        emailState.value.isNotBlank()
+
+                if (allFieldsFilled) {
+                    saveUserInformation(firstNameState.value, lastNameState.value, emailState.value, context)
+                    // Navigate to Home screen
+                    navController.navigate(Destinations.Home.route)
+                } else {
+                    mToast(context)
+                }
+
+            },
             modifier = Modifier
                 .padding(top = 60.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
                 .fillMaxWidth()
@@ -181,9 +200,24 @@ fun Onboarding(){
     }
 }
 
-@Preview
+private fun mToast(context: Context){
+    Toast.makeText(context, "Registration unsuccessful. Please enter all data.", Toast.LENGTH_LONG).show()
+}
+
+private fun saveUserInformation(firstName: String, lastName: String, email: String, context: Context) {
+    val sharedPreferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE)
+    val editor = sharedPreferences.edit()
+    editor.putString("first_name", firstName)
+    editor.putString("last_name", lastName)
+    editor.putString("email", email)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+        editor.apply()
+    }
+}
+
+
 @Composable
 fun OnboardingPreview(){
-    Onboarding()
+
 }
 
