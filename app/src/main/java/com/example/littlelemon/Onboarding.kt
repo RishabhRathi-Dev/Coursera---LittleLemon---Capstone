@@ -183,7 +183,7 @@ fun Onboarding(navController: NavController){
 
             },
             modifier = Modifier
-                .padding(top = 60.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
+                .padding(top = 40.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
                 .fillMaxWidth()
             ,
             shape = RoundedCornerShape(size = 8.dp),
@@ -217,6 +217,7 @@ private fun saveUserInformation(firstName: String, lastName: String, email: Stri
 
 
 @Composable
+@Preview
 fun OnboardingPreview(){
 
 }
