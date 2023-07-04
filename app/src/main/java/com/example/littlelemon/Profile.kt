@@ -8,24 +8,18 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -35,9 +29,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @Composable
-fun Profile() {
+fun Profile(context: Context, navController: NavController) {
     val context = LocalContext.current
     val sharedPreferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE)
     val firstName = sharedPreferences.getString("first_name", "")
@@ -178,6 +173,15 @@ fun Profile() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
                     editor.apply()
                 }
+
+                val sharedPreferencesForOnboarding = context.getSharedPreferences("onboarded", Context.MODE_PRIVATE)
+                val editorOnboarding = sharedPreferencesForOnboarding.edit()
+                editorOnboarding.putBoolean("onboarded", false)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                    editorOnboarding.apply()
+                }
+
+                navController.navigate(Onboarding.route)
             },
             modifier = Modifier
                 .padding(top = 40.dp, start = 16.dp, end = 16.dp, bottom = 16.dp)
@@ -200,5 +204,4 @@ fun Profile() {
 @Composable
 @Preview
 fun ProfilePreview() {
-    Profile()
 }

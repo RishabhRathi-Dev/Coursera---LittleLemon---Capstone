@@ -3,10 +3,8 @@ package com.example.littlelemon
 import android.content.Context
 import android.os.Build
 import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -17,8 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -31,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun Onboarding(navController: NavController){
+fun Onboarding(context: Context, navController: NavController){
     val context = LocalContext.current
     Column(
         modifier = Modifier
@@ -176,7 +172,7 @@ fun Onboarding(navController: NavController){
                 if (allFieldsFilled) {
                     saveUserInformation(firstNameState.value, lastNameState.value, emailState.value, context)
                     // Navigate to Home screen
-                    navController.navigate(Destinations.Home.route)
+                    navController.navigate(Home.route)
                 } else {
                     mToast(context)
                 }
@@ -212,6 +208,13 @@ private fun saveUserInformation(firstName: String, lastName: String, email: Stri
     editor.putString("email", email)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
         editor.apply()
+    }
+
+    val sharedPreferencesForOnboarding = context.getSharedPreferences("onboarded", Context.MODE_PRIVATE)
+    val editorOnboarding = sharedPreferencesForOnboarding.edit()
+    editorOnboarding.putBoolean("onboarded", true)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+        editorOnboarding.apply()
     }
 }
 
