@@ -2,6 +2,7 @@ package com.example.littlelemon
 
 import android.content.Context
 import android.os.Build
+import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -169,7 +170,9 @@ fun Onboarding(context: Context, navController: NavController){
                         lastNameState.value.isNotBlank() &&
                         emailState.value.isNotBlank()
 
-                if (allFieldsFilled) {
+                val validEmail = Patterns.EMAIL_ADDRESS.matcher(emailState.value).matches()
+
+                if (allFieldsFilled && validEmail) {
                     saveUserInformation(firstNameState.value, lastNameState.value, emailState.value, context)
                     // Navigate to Home screen
                     navController.navigate(Home.route)
@@ -197,7 +200,7 @@ fun Onboarding(context: Context, navController: NavController){
 }
 
 private fun mToast(context: Context){
-    Toast.makeText(context, "Registration unsuccessful. Please enter all data.", Toast.LENGTH_LONG).show()
+    Toast.makeText(context, "Registration unsuccessful. Please enter all data correctly.", Toast.LENGTH_LONG).show()
 }
 
 private fun saveUserInformation(firstName: String, lastName: String, email: String, context: Context) {

@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -40,7 +41,7 @@ fun Profile(context: Context, navController: NavController) {
     val email = sharedPreferences.getString("email", "")
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(color = Color(0xFFEDEFEE)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -92,6 +93,7 @@ fun Profile(context: Context, navController: NavController) {
                         shape = RoundedCornerShape(8.dp)
                         )
                     .padding(12.dp)
+                    .fillMaxWidth()
 
                 ,
                 fontFamily = FontFamily(
@@ -116,13 +118,14 @@ fun Profile(context: Context, navController: NavController) {
                 )
 
             Text(
-                text = lastName ?: "First Name",
+                text = lastName ?: "Last Name",
                 modifier = Modifier
                     .padding(8.dp)
                     .border(border = BorderStroke(1.dp, color = Color.Gray),
                         shape = RoundedCornerShape(8.dp)
                     )
                     .padding(12.dp)
+                    .fillMaxWidth()
 
                 ,
                 fontFamily = FontFamily(
@@ -148,13 +151,14 @@ fun Profile(context: Context, navController: NavController) {
             )
 
             Text(
-                text = email ?: "First Name",
+                text = email ?: "Email",
                 modifier = Modifier
                     .padding(8.dp)
                     .border(border = BorderStroke(1.dp, color = Color.Gray),
                         shape = RoundedCornerShape(8.dp)
                     )
                     .padding(12.dp)
+                    .fillMaxWidth()
 
                 ,
                 fontFamily = FontFamily(

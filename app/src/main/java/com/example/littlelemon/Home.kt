@@ -43,14 +43,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role.Companion.Image
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import io.ktor.util.hex
 
 @RequiresApi(Build.VERSION_CODES.N)
 @Composable
@@ -94,7 +98,7 @@ fun Header(navController: NavHostController) {
             Icon(
                 imageVector = Icons.Default.AccountCircle,
                 contentDescription = "Profile Icon",
-                tint = Color(R.color.primaryGreen),
+                tint = Color(0xFF495E57),
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(vertical = 2.dp)
@@ -109,18 +113,21 @@ fun UpperPanel(search: (parameter: String) -> Unit) {
 
     Column(
         modifier = Modifier
-            .background(color = Color(R.color.primaryGreen))
+            .background(color = Color(0xFF495E57))
             .padding(horizontal = 20.dp, vertical = 10.dp)
+            .fillMaxWidth()
     ) {
         Text(
             text = "Little Lemon",
-            style = MaterialTheme.typography.h1,
-            color = Color(R.color.primaryYellow)
+            color = Color(0xFFF4CE14),
+            fontSize = 48.sp,
+            fontWeight = FontWeight(500),
         )
         Text(
-            text = "New York",
-            style = MaterialTheme.typography.h3,
-            color = Color(R.color.secondaryWhite)
+            text = "Chicago",
+            color = Color(0xFFEDEFEE),
+            fontWeight = FontWeight(500),
+            fontSize = 36.sp
         )
         Row(
             Modifier.fillMaxWidth(),
@@ -130,13 +137,14 @@ fun UpperPanel(search: (parameter: String) -> Unit) {
             Text(
                 text = "We are a family owned Mediterranean restaurant, focused on traditional recipes served with  a modern twist. Turkish, Italian, Indian and chinese recipes are our speciality.",
                 modifier = Modifier.fillMaxWidth(0.7f),
-                color = Color(R.color.secondaryWhite),
-                style = MaterialTheme.typography.body1
+                color = Color(0xFFEDEFEE),
+                fontSize = 18.sp,
+                fontWeight = FontWeight(500),
             )
             Image(
                 painter = painterResource(id = R.drawable.hero_image),
                 contentDescription = "Hero Image",
-                modifier = Modifier.clip(RoundedCornerShape(16.dp))
+                modifier = Modifier.clip(RoundedCornerShape(16.dp)),
             )
         }
 
@@ -150,7 +158,7 @@ fun UpperPanel(search: (parameter: String) -> Unit) {
             placeholder = { Text(text = "Enter Search Phrase") },
             leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "Search Icon") },
             colors = TextFieldDefaults.outlinedTextFieldColors(
-                backgroundColor = MaterialTheme.colors.background
+                backgroundColor = Color(0xFFEDEFEE)
             ),
             modifier = Modifier.fillMaxWidth()
         )
@@ -232,8 +240,8 @@ fun CategoryButton(category: String, selectedCategory: (sel: String) -> Unit) {
             selectedCategory(category)
         },
         colors = ButtonDefaults.buttonColors(
-            contentColor = Color(R.color.primaryGreen),
-            backgroundColor = Color(R.color.secondarySkin)
+            contentColor = Color(0xFF495E57),
+            backgroundColor = Color(0xFFFBDABB)
         )
     ) {
         Text(text = category)
